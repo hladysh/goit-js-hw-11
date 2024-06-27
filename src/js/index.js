@@ -6,7 +6,6 @@ import { fetchImages } from './apis-service';
 
 const searchForm = document.getElementById('search-form');
 const gallery = document.querySelector('.gallery');
-const loadMoreBtn = document.querySelector('.load-more');
 
 let searchQuery = '';
 let currentPage = 1;
@@ -21,7 +20,6 @@ const handleSearch = async (event) => {
 
     currentPage = 1;
     gallery.innerHTML = '';
-    loadMoreBtn.classList.add('hidden');
     await loadImages();
 };
 
@@ -44,14 +42,6 @@ const loadImages = async () => {
         simpleLightbox = new SimpleLightbox('.gallery a');
         simpleLightbox.refresh();
 
-        if (currentPage * 40 < totalHits) {
-            loadMoreBtn.classList.remove('hidden');
-        } else {
-            loadMoreBtn.classList.add('hidden');
-            Notiflix.Notify.info(
-                "We're sorry, but you've reached the end of search results."
-            );
-        }
     } catch (error) {
         console.error('Error fetching images:', error);
         Notiflix.Notify.failure('Something went wrong. Please try again later.');
@@ -72,4 +62,3 @@ window.addEventListener('scroll', () => {
 });
 
 searchForm.addEventListener('submit', handleSearch);
-loadMoreBtn.addEventListener('click', handleLoadMore);
